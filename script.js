@@ -1,13 +1,6 @@
-const Colors = {
-    Red: "#FF0000",
-    Blue: "#0000FF",
-    Green: "#008000",
-    Yellow: "#FFFF00",
-    Orange: "#FFA500",
-    Purple: "#800080",
-    Pink: "#FFC0CB",
-    Brown: "#A52A2A"
-};
+const Colors = [
+    "Red", "Blue", "Green", "Yellow", "Orange", "Purple", "Pink", "Brown"
+];
 
 const ColorDisplay = document.getElementById("color-display");
 const ButtonContainer = document.querySelector(".buttons");
@@ -18,20 +11,26 @@ const RestartButton = document.getElementById("restart-btn");
 const EndSound = document.getElementById("end-sound")
 
 let Score = 0;
-let TimeLeft = 30;
+let TimeLeft = 60;
 let Timer;
 
 function GenerateGame() {
-    ButtonContainer.innerHTML = ""; // Clear previous buttons
-    const correctColor = Object.keys(Colors)[Math.floor(Math.random() * Object.keys(Colors).length)];
+    ButtonContainer.innerHTML = "";
+    const correctColor = Colors[Math.floor(Math.random() * Object.keys(Colors).length)];
     ColorDisplay.textContent = correctColor.toUpperCase();
+
+    let TextColor;
+    do {
+        TextColor = Colors[Math.floor(Math.random() * Colors.length)]
+    } while (TextColor === correctColor);
+    ColorDisplay.style.color = TextColor
 
     const shuffledColors = ShuffleArray(Object.keys(Colors));
     shuffledColors.forEach(color => {
         const button = document.createElement("button");
         button.classList.add("color-button");
         button.style.backgroundColor = Colors[color];
-        button.onclick = () => CheckAnswer(color, correctColor);
+        button.onclick = () => CheckAnswer(Colors[color], correctColor);
         ButtonContainer.appendChild(button);
     });
 }
@@ -75,9 +74,9 @@ function EndGame() {
 
 function ResetGame() {
     Score = 0;
-    TimeLeft = 30;
+    TimeLeft = 60;
     ScoreDisplay.textContent = `Your Score Is: ${Score}`;
-    // TimeLeftDisplay.textContent = `${TimeLeft} Seconds`;
+    TimeLeftDisplay.textContent = `${TimeLeft} Seconds`;
     GameOver.style.display = "none";
     RestartButton.style.display = "none";
     GenerateGame();
@@ -86,7 +85,7 @@ function ResetGame() {
 
 function InitiateGame() {
     Score = 0;
-    TimeLeft = 30;
+    TimeLeft = 60;
     ScoreDisplay.textContent = `Your Score Is: ${Score}`;
     TimeLeftDisplay.textContent = `${TimeLeft} Seconds`;
     GameOver.style.display = "none";
