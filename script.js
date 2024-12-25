@@ -9,6 +9,8 @@ const TimeLeftDisplay = document.getElementById("time-left");
 const GameOver = document.getElementById("game-over");
 const RestartButton = document.getElementById("restart-btn");
 const EndSound = document.getElementById("end-sound")
+const RightSound = document.getElementById("right-sound")
+const WrongSound = document.getElementById("wrong-sound")
 
 let Score = 0;
 let TimeLeft = 60;
@@ -45,9 +47,11 @@ function ShuffleArray(array) {
 
 function CheckAnswer(SelectedColor, CorrectColor) {
     if (SelectedColor === CorrectColor) {
-        Score++;
+        Score+=2;
+        RightSound.play()
     } else {
         Score = Math.max(0, Score - 1);
+        WrongSound.play()
     }
     ScoreDisplay.textContent = `Your Score Is: ${Score}`;
     GenerateGame();
